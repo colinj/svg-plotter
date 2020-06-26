@@ -3,9 +3,9 @@
     <h1>Plotter Demo</h1>
     <div class="canvas">
       <svg height="250" width="250">
-        <rect x="10" y="10" width="100" height="100" style="fill:green" />
-        <circle cx="100" cy="100" r="25" style="fill:orange" />
-        <polygon points="200,10 250,190 160,210" style="fill:red" />
+        <template v-for="shape in shapes">
+          <component :is="shape.component" :args="shape" :key="shape.fill"/>
+        </template>
       </svg>
     </div>
     <div>
@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import SvgRect from '@/components/SvgRect'
+import SvgCircle from '@/components/SvgCircle'
+import SvgPolygon from '@/components/SvgPolygon'
 
 const randomColor = () => '#' + Math.random().toString(16).slice(-6)
 
@@ -37,6 +40,7 @@ const createRect = args => {
   const values = args.map(v => parseInt(v))
 
   return {
+    component: "SvgRect",
     fill: randomColor(),
     x: values[0],
     y: values[1],
@@ -52,6 +56,7 @@ const createCircle = args => {
   const values = args.map(v => parseInt(v))
 
   return {
+    component: "SvgCircle",
     fill: randomColor(),
     cx: values[0],
     cy: values[1],
@@ -64,6 +69,7 @@ const createPolygon = args => {
   if (args.reduce((a, c) => a || !/\d+,\d+/.test(c), false)) return 'At least one of the parameters is not a valid number.'
 
   return {
+    component: "SvgPolygon",
     fill: randomColor(),
     points: args.join(' ')
   }
@@ -71,23 +77,28 @@ const createPolygon = args => {
 
 const processLine = line => {
   const tokens = line.trim().split(/\s+/)
-switch (tokens[0].toLowerCase()) {
-  case 'r':
-    return createRect(tokens.slice(1))
 
-  case 'c':
-    return createCircle(tokens.slice(1))
+  switch (tokens[0].toLowerCase()) {
+    case 'r':
+      return createRect(tokens.slice(1))
 
-  case 'p':
-    return createPolygon(tokens.slice(1))
+    case 'c':
+      return createCircle(tokens.slice(1))
 
-  default:
-    return 'Command is invalid.';
-}
+    case 'p':
+      return createPolygon(tokens.slice(1))
 
+    default:
+      return 'Command is invalid.';
+  }
 }
 
 export default {
+  components: {
+    SvgRect,
+    SvgCircle,
+    SvgPolygon
+  },
   data () {
     return {
       instructions: '',
@@ -99,6 +110,7 @@ export default {
 
   },
   methods: {
+    clearText () { return this.instructions = '' }, 
     draw () {
       const lines = this.instructions.split('\n')
 
@@ -108,8 +120,6 @@ export default {
       lines.forEach(line => {
         lineNo++
         const shape = processLine(line)
-        console.log(shape)
-        console.log(typeof(shape))
         if (typeof(shape) === 'object') {
           this.shapes.push(shape)
         } else {
@@ -117,7 +127,6 @@ export default {
         }
       }) 
     },
-    clearText () { return this.instructions = '' }, 
   }
     
 }
