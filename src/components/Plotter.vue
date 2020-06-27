@@ -2,11 +2,7 @@
   <div>
     <h1>Plotter Demo</h1>
     <div class="canvas">
-      <svg height="250" width="250">
-        <template v-for="shape in shapes">
-          <component :is="shape.component" :args="shape" :key="shape.fill"/>
-        </template>
-      </svg>
+      <svg-canvas :shapes="shapes" />
     </div>
     <div>
       <textarea class="gutter" v-model="gutter" readonly/>
@@ -25,16 +21,12 @@
 </template>
 
 <script>
-import SvgRect from '@/components/SvgRect'
-import SvgCircle from '@/components/SvgCircle'
-import SvgPolygon from '@/components/SvgPolygon'
+import SvgCanvas from '@/components/SvgCanvas'
 import parseCommand from '@/utils/parseCommands'
 
 export default {
   components: {
-    SvgRect,
-    SvgCircle,
-    SvgPolygon
+    SvgCanvas
   },
   data () {
     return {
