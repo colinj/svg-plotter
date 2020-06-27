@@ -6,11 +6,11 @@ const createRect = args => {
   const values = args.map(v => parseInt(v))
   return {
     component: "SvgRect",
-    fill: randomColor(),
     x: values[0],
     y: values[1],
     width: values[2],
-    height: values[3]
+    height: values[3],
+    fill: randomColor(),
   }
 } 
 
@@ -20,10 +20,10 @@ const createCircle = args => {
   const values = args.map(v => parseInt(v))
   return {
     component: "SvgCircle",
-    fill: randomColor(),
     cx: values[0],
     cy: values[1],
     r: values[2],
+    fill: randomColor(),
   }
 }
 
@@ -32,17 +32,18 @@ const createPolygon = args => {
   if (args.reduce((a, c) => a || !/\d+,\d+/.test(c), false)) return 'At least one of the parameters is not a valid number.'
   return {
     component: "SvgPolygon",
+    points: args.join(' '),
     fill: randomColor(),
-    points: args.join(' ')
   }
 }
 
 const parseCommand = line => {
   const tokens = line.trim().split(/\s+/)
+  const args = tokens.slice(1)
   switch (tokens[0].toLowerCase()) {
-    case 'r': return createRect(tokens.slice(1))
-    case 'c': return createCircle(tokens.slice(1))
-    case 'p': return createPolygon(tokens.slice(1))
+    case 'r': return createRect(args)
+    case 'c': return createCircle(args)
+    case 'p': return createPolygon(args)
     case '': return ''
     default: return 'Command is invalid.'
   }
