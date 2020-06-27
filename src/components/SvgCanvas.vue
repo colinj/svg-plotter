@@ -1,5 +1,5 @@
 <template>
-  <svg height="250" width="250">
+  <svg :height="height" :width="width">
     <template v-for="shape in shapes">
       <component :is="shape.component" :args="shape" :key="shape.fill"/>
     </template>
