@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Plotter Demo</h1>
-    <div class="canvas">
-      <svg-canvas :shapes="shapes" />
+    <div>
+      <svg-canvas class="canvas" :shapes="shapes" />
     </div>
     <cmd-editor v-model="instructions" />
     <div>
@@ -29,7 +29,7 @@ export default {
   },
   data () {
     return {
-      instructions: '',
+      instructions: [],
       shapes: [],
       errorMsgs: []
     }
@@ -37,18 +37,16 @@ export default {
   methods: {
     clearText () { return this.instructions = '' }, 
     draw () {
-      const lines = this.instructions.split('\n')
-
       this.shapes = []
       this.errorMsgs = []
       let lineNo = 0
-      lines.forEach(line => {
+      this.instructions.forEach(line => {
         lineNo++
-        const shape = parseCommand(line)
-        if (typeof(shape) === 'object') {
-          this.shapes.push(shape)
-        } else if (shape) {
-          this.errorMsgs.push(`Line ${lineNo}: ${shape}`)
+        const output = parseCommand(line)
+        if (typeof(output) === 'object') {
+          this.shapes.push(output)
+        } else if (output) {
+          this.errorMsgs.push(`Line ${lineNo}: ${output}`)
         }
       }) 
     },
@@ -58,5 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.canvas {
+  border: 1px solid black
+}
 </style>

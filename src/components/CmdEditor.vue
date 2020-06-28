@@ -9,25 +9,23 @@
 export default {
   props: {
     value: {
-      type: String,
-      default: ''
+      type: Array,
+      required: true
     },
   },
   computed: {
     inputVal: {
       get() {
-        return this.value;
+        return this.value.join('\n');
       },
       set(val) {
-        this.$emit('input', val);
+        this.$emit('input', val.split('\n'));
       }
     },
     gutter () {
-      const lines = this.value
-        .split('\n')
-        .map((val, index) => index + 1)
+      return this.value
+        .map((val, idx) => idx + 1)
         .join('\n')
-      return lines
     }
   },
   methods: {
