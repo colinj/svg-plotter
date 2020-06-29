@@ -37,6 +37,20 @@ const createPolygon = args => {
   }
 }
 
+const createEllipse = args => {
+    if (args.length !== 4) return 'Ellipse requires 4 parameters.'
+    if (args.reduce((a, c) => a || isNaN(c), false)) return 'At least one of the parameters is not a valid number.'
+    const values = args.map(v => parseInt(v))
+    return {
+      component: "SvgEllipse",
+      cx: values[0],
+      cy: values[1],
+      rx: values[2],
+      ry: values[3],
+      fill: randomColor(),
+    }
+  }
+  
 const parseCommand = line => {
   const tokens = line.trim().split(/\s+/)
   const args = tokens.slice(1)
@@ -44,6 +58,7 @@ const parseCommand = line => {
     case 'r': return createRect(args)
     case 'c': return createCircle(args)
     case 'p': return createPolygon(args)
+    case 'e': return createEllipse(args)
     case '': return ''
     default: return 'Command is invalid.'
   }

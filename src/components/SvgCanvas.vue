@@ -10,12 +10,14 @@
 import SvgRect from '@/components/SvgRect'
 import SvgCircle from '@/components/SvgCircle'
 import SvgPolygon from '@/components/SvgPolygon'
+import SvgEllipse from '@/components/SvgEllipse'
 
 export default {
   components: {
     SvgRect,
     SvgCircle,
-    SvgPolygon
+    SvgPolygon,
+    SvgEllipse,
   },
   props: {
     height: {
