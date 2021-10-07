@@ -1,7 +1,16 @@
 <template>
   <div class="editor-container">
-    <textarea ref="gutter" class="gutter" v-model="gutter" readonly/>
-    <textarea ref="editor" class="editor" v-model="inputVal" @scroll="syncScroll()"></textarea>
+    <textarea 
+      ref="gutter" 
+      class="gutter" 
+      v-model="gutter" 
+      readonly />
+    <textarea 
+      ref="editor" 
+      class="editor" 
+      v-model="inputVal" 
+      @mousemove="syncResize()"
+      @scroll="syncScroll()" />
   </div>
 </template>
 
@@ -29,6 +38,9 @@ export default {
     }
   },
   methods: {
+    syncResize () {
+      this.$refs.gutter.style.height = this.$refs.editor.style.height
+    },
     syncScroll () {
       this.$refs.gutter.scrollTop = this.$refs.editor.scrollTop
     },
@@ -44,13 +56,15 @@ export default {
 }
 
 textarea {
-  height: 300px;
+  height: 5rem;
   border-color: #aaa;
+  font-family: monospace;
+  resize: vertical;
 }
 
 .gutter {
   padding-right: .5rem;
-  width: 2rem;
+  width: 3.5rem;
   background-color: #eee;
   border-right: 0;
   text-align: right;
@@ -59,6 +73,7 @@ textarea {
 }
 
 .editor {
+  flex-grow: 1;
   padding-left: .5rem;
   width: 40rem;
 }
