@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import SvgCanvas from '@/components/SvgCanvas'
-import CmdEditor from '@/components/CmdEditor'
+import SvgCanvas from '@/components/SvgCanvas.vue'
+import CmdEditor from '@/components/CmdEditor.vue'
 import parseCommand from '@/utils/parseCommands'
 
 export default {

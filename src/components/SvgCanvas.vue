@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import SvgRect from '@/components/SvgRect'
-import SvgCircle from '@/components/SvgCircle'
-import SvgPolygon from '@/components/SvgPolygon'
-import SvgEllipse from '@/components/SvgEllipse'
+import SvgRect from '@/components/SvgRect.vue'
+import SvgCircle from '@/components/SvgCircle.vue'
+import SvgPolygon from '@/components/SvgPolygon.vue'
+import SvgEllipse from '@/components/SvgEllipse.vue'
 
 export default {
   components: {
